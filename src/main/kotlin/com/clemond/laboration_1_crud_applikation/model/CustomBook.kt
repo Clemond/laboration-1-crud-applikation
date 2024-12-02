@@ -6,7 +6,7 @@ import jakarta.persistence.*
 @Table(name = "CustomBook")
 class CustomBook(
     val title: String = "",
-    val pages: Number = 0,
+    val pages: Int = 0,
     val isRead: Boolean = true,
 
     @Id
