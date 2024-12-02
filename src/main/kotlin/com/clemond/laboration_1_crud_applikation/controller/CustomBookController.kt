@@ -3,13 +3,7 @@ package com.clemond.laboration_1_crud_applikation.controller
 import com.clemond.laboration_1_crud_applikation.model.CustomBook
 import com.clemond.laboration_1_crud_applikation.repository.CustomBookRepository
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/book")
@@ -53,6 +47,27 @@ class CustomBookController(
         }
 
         return ResponseEntity.notFound().build()
+    }
+
+    @PutMapping
+    fun putBook(@RequestBody updatedBook: CustomBook): ResponseEntity<String> {
+        val bookId = updatedBook.id ?: return ResponseEntity.status(400).body("Book ID is required")
+
+        val existingBookOptional = customBookRepository.findById(bookId)
+
+        if (existingBookOptional.isPresent) {
+            val existingBook = existingBookOptional.get()
+
+            existingBook.title = updatedBook.title
+            existingBook.pages = updatedBook.pages
+            existingBook.isRead = updatedBook.isRead
+
+            customBookRepository.save(existingBook)
+
+            return ResponseEntity.status(200).body("Book updated successfully")
+        }
+
+        return ResponseEntity.status(404).body("Book not found")
     }
 
 }

@@ -5,9 +5,9 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "CustomBook")
 class CustomBook(
-    val title: String = "",
-    val pages: Int = 0,
-    val isRead: Boolean = true,
+    var title: String = "",
+    var pages: Int = 0,
+    var isRead: Boolean = true,
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
